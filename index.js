@@ -2,15 +2,6 @@ const express = require("express");
 const app = express();
 const db = require("./queries");
 const port = 3000;
-const Pool = require("pg").Pool;
-
-const pool = new Pool({
-  user: "taller05",
-  host: "148.231.233.241",
-  database: "sakila",
-  password: "545342xs",
-  port: 5432,
-});
 
 // Middlewa que verifica si el usuario es un administrador.
 const middleware = (req, res, next) => {
