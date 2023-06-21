@@ -5,7 +5,6 @@ const port = 3000;
 
 // Middlewa que verifica si el usuario es un administrador.
 const middleware = (req, res, next) => {
-  console.log(db.getUsers);
   next();
 };
 
@@ -37,6 +36,12 @@ app.get("/customer/:customer_id", (req, res) => {
   db.getUser(id).then((result) => {
     res.send(result);
   });
+});
+
+app.post("/saveCustomer", (req, res) => {
+  db.saveUser(req.body).then((result)=>{
+    res.send(result);
+  })
 });
 
 app.listen(port, () => {
