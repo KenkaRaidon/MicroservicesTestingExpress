@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
-const db = require("./queries");
+const dbCustomer = require("./customerQueries");
+const dbCountry =require("./countryQueries")
+const dbCity = require("./cityQueries")
 const port = 3000;
 
 // Middlewa que verifica si el usuario es un administrador.
@@ -19,9 +21,9 @@ app.get("/", (req, res) => {
   res.sendFile("index.html", { root: __dirname });
 });
 
-app.get("/customers", (req, res) => {
+app.get("/getCustomers", (req, res) => {
   const maries = [];
-  db.getUsers().then((result) => {
+  dbCustomer.getCustomers().then((result) => {
     result.forEach((element) => {
       element.first_name == "MARY" ? maries.push(element) : "";
     });
@@ -32,17 +34,29 @@ app.get("/customers", (req, res) => {
 
 app.get("/customer/:customer_id", (req, res) => {
   const id = req.params.customer_id;
-
-  db.getUser(id).then((result) => {
+  dbCustomer.getCustomerById(id).then((result) => {
     res.send(result);
   });
 });
 
 app.post("/saveCustomer", (req, res) => {
-  db.saveUser(req.body).then((result)=>{
+  dbCustomer.saveCustomer(req.body).then((result)=>{
     res.send(result);
   })
 });
+
+app.get("/getCountries", (req, res)=>{
+  dbCountry.getCountries().then((result)=>{
+    res.send(result)
+  })
+})
+
+app.get("/getCityByCountryId/:country_id", (req, res)=>{
+  const id = req.params.country_id;
+  dbCity.getCityByCountryId(id).then((result) => {
+    res.send(result);
+  });
+})
 
 app.listen(port, () => {
   console.log(`Server listeting on port ${port}`);
