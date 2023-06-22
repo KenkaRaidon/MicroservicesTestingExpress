@@ -3,6 +3,7 @@ const app = express();
 const dbCustomer = require("./customerQueries");
 const dbCountry =require("./countryQueries")
 const dbCity = require("./cityQueries")
+const dbStore= require("./storeQueries")
 const port = 3000;
 
 // Middlewa que verifica si el usuario es un administrador.
@@ -56,6 +57,12 @@ app.get("/getCityByCountryId/:country_id", (req, res)=>{
   dbCity.getCityByCountryId(id).then((result) => {
     res.send(result);
   });
+})
+
+app.get("/getStores", (req, res)=>{
+  dbStore.getStores().then((result)=>{
+    res.send(result)
+  })
 })
 
 app.listen(port, () => {
